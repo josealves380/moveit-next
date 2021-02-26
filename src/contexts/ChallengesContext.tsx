@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useEffect, useState } from 'react';
+import Cookies from 'js-cookie';
 import challenges from '../../challenges.json';
 interface Challenge {
     type: 'body' | 'eye';
@@ -39,9 +40,15 @@ export function ChallengesProvider({ children }: ChallengesProviderProps) {
         Notification.requestPermission();
     }, [])
 
+    useEffect(() => {
+        Cookies.set('level', String(level));
+        Cookies.set('currentExperience', String(level));
+        Cookies.set('challengeCompleted', String(level));
+    }, [level, currentExperience, challengesCompleted]);
+
     function startNewChallenge() {
-        const randomChanllengeIndex = Math.floor(Math.random() * challenges.length)
-        const challenge = challenges[randomChanllengeIndex];
+        const randomChallengeIndex = Math.floor(Math.random() * challenges.length)
+        const challenge = challenges[randomChallengeIndex];
 
         setActiveChallenge(challenge)
 
