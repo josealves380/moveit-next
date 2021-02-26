@@ -9,7 +9,9 @@ import { ChallengeBox } from "../components/ChallengeBox";
 import styles from '../styles/pages/Home.module.css';
 import { CountdownProvider } from '../contexts/CountdownContext';
 
-export default function Home() {
+export default function Home(props) {
+
+  console.log(props)
     return(
         <div className={styles.container}>
           <Head>
@@ -31,4 +33,19 @@ export default function Home() {
         </CountdownProvider>
       </div>
     )
+}
+
+export const getServerSideProps = async () => {
+  //chamada api
+  const user = {
+    level:1,
+    currentExperience: 50,
+    challengeCompleted: 2,
+  }
+
+  //console.log(user);
+
+  return {
+    props: user
+  }
 }
