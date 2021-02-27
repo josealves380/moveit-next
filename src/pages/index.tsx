@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import { GetServerSideProps } from 'next';
 
 import { CompletedChallenges } from "../components/CompletedChallenges";
 import { CountDown } from "../components/CountDown";
@@ -8,10 +9,23 @@ import { ChallengeBox } from "../components/ChallengeBox";
 
 import styles from '../styles/pages/Home.module.css';
 import { CountdownProvider } from '../contexts/CountdownContext';
+import { ChallengesProvider } from '../contexts/ChallengesContext';
 
-export default function Home(props) {
+interface HomeProps {
+  level: number;
+  currentExperience: number;
+  challengesCompleted: number;
+}
 
-    return(
+export default function Home(props: HomeProps) {
+
+  return(
+      <ChallengesProvider 
+        level={props.level}
+        currentExperience={props.currentExperience}
+        challengesCompleted={props.challengesCompleted
+        }
+      >
         <div className={styles.container}>
           <Head>
             <title>Inicio | move.it</title>
@@ -31,20 +45,18 @@ export default function Home(props) {
           </section>
         </CountdownProvider>
       </div>
+    </ChallengesProvider>
     )
 }
 
-export const getServerSideProps = async () => {
-  //chamada api
-  const user = {
-    level:1,
-    currentExperience: 50,
-    challengeCompleted: 2,
-  }
-
-  console.log(user);
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { level, currentExperience, challengeCompleted } = ctx.req.cookies;
 
   return {
-    props: user
+    props: {
+      level: Number(level),
+      currentExperience: Number(currentExperience),
+      challengeCompleted: Number(challengeCompleted)
+    }
   }
 }
