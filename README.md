@@ -19,4 +19,4 @@ git clone e colando a url no seu prompt de comando.
 Logo após clonar você pode usar o comando git init que as dependêcias serão instaladas automaticamente
 
 
-![gif animado](https://github.com/josealves380/moveit-next/blob/main/gif%20animado.mp4)
+
